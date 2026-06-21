@@ -129,7 +129,21 @@ function flashRed(times=4){
 }
 let shakeTime = 0;
 
-init();
+window.addEventListener('error', function(e){
+  const div = document.createElement('div');
+  div.style.cssText = 'position:absolute;top:80px;left:10px;right:10px;background:#600;color:#fff;padding:12px;font-family:monospace;font-size:13px;z-index:9999;white-space:pre-wrap;';
+  div.textContent = 'SCRIPT ERROR: ' + e.message + '\n' + (e.filename||'') + ':' + (e.lineno||'') ;
+  document.body.appendChild(div);
+});
+
+try {
+  init();
+} catch(err){
+  const div = document.createElement('div');
+  div.style.cssText = 'position:absolute;top:80px;left:10px;right:10px;background:#600;color:#fff;padding:12px;font-family:monospace;font-size:13px;z-index:9999;white-space:pre-wrap;';
+  div.textContent = 'INIT ERROR: ' + (err && err.stack ? err.stack : err);
+  document.body.appendChild(div);
+}
 
 function init(){
   scene = new THREE.Scene();
